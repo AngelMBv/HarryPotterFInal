@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/512.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style1.css">
+    <title>Characters</title>
+</head>
+<body>
+    <body>
+        <div class="container">
+            <div class="column">
+                <select id="casaSelector" class="selector">
+                    <option value="">Selecciona tu casa</option>
+                    <option value="gryffindor">Gryffindor</option>
+                    <option value="slytherin">Slytherin</option>
+                    <option value="hufflepuff">Hufflepuff</option>
+                    <option value="ravenclaw">Ravenclaw</option>
+                </select>
+    
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img id="casaImage" src="img/Logo1.png" alt="Casa">
+                        </div>
+                        <div class="flip-card-back">
+                            <h2 id="casaName">Casas de Howarts</h2>
+                            <p id="casaFounder"></p>
+                            <p id="casaValues"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="column">
+                <select id="personajeSelector" class="selector">
+                    <option value="">Selecciona tu personaje</option>
+                    <option value="harry">Harry Potter</option>
+                    <option value="ron">Ron Weasley</option>
+                    <option value="hermione">Hermione Granger</option>
+                    <option value="cedric">Cedric Diggory</option>
+                    <option value="luna">Luna Lovegood</option>
+                    <option value="dumbledore">Albus Dumbledore</option>
+                    <option value="sirius">Sirius Black</option>
+                    <option value="snape">Severus Snape</option>
+                    <option value="draco">Draco Malfoy</option>
+                    <option value="voldemort">Lord Voldemort</option>
+                </select>
+    
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img id="personajeImage" src="img/Logo2.png" alt="Personaje">
+                        </div>
+                        <div class="flip-card-back">
+                            <h2 id="personajeName">Personajes</h2>
+                            <p id="personajeDescription"></p>
+                            <p id="personajeSpell"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="button" href="index.html">Regresar</a>
+        <script src="script.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pouchdb/7.2.2/pouchdb.min.js"></script>
+        <script>
+        // Crear una instancia de la base de datos PouchDB
+const db = new PouchDB('selecciones');
+
+// Función para guardar las selecciones en la base de datos
+function guardarSelecciones(casa, fundador, valores, personaje, descripcion, hechizo) {
+    const doc = {
+        _id: new Date().toISOString(), // Usar una marca de tiempo como ID único
+        casa: {
+            nombre: casa,
+            fundador: fundador,
+            valores: valores
+        },
+        personaje: {
+            nombre: personaje,
+            descripcion: descripcion,
+            hechizo: hechizo
+        }
+    };
+
+    // Guardar el documento en la base de datos
+    db.put(doc)
+        .then(response => {
+            console.log('Selecciones guardadas con éxito:', response);
+        })
+        .catch(error => {
+            console.error('Error al guardar las selecciones:', error);
+        });
+}
+
+// Datos ficticios de todos los personajes
+// Datos ficticios de todos los personajes
+const datosPersonajes = {
+    harry: {
+        nombre: "Harry Potter",
+        descripcion: "El famoso mago y protagonista de la serie.",
+        hechizo: "Expecto Patronum"
+    },
+    ron: {
+        nombre: "Ron Weasley",
+        descripcion: "Mejor amigo de Harry y Hermione.",
+        hechizo: "Wingardium Leviosa"
+    },
+    hermione: {
+        nombre: "Hermione Granger",
+        descripcion: "Una de las brujas más inteligentes de su generación.",
+        hechizo: "Alohomora"
+    },
+    cedric: {
+        nombre: "Cedric Diggory",
+        descripcion: "Un valiente mago de Hufflepuff.",
+        hechizo: "Lumos"
+    },
+    luna: {
+        nombre: "Luna Lovegood",
+        descripcion: "Una estudiante de Ravenclaw conocida por su singularidad.",
+        hechizo: "Patronus"
+    },
+    dumbledore: {
+        nombre: "Albus Dumbledore",
+        descripcion: "El director de Hogwarts y un poderoso mago.",
+        hechizo: "Locomotor Wibbly"
+    },
+    sirius: {
+        nombre: "Sirius Black",
+        descripcion: "El padrino de Harry y un animago.",
+        hechizo: "Transformación Animagus"
+    },
+    snape: {
+        nombre: "Severus Snape",
+        descripcion: "Un maestro de pociones y espía.",
+        hechizo: "Sectumsempra"
+    },
+    draco: {
+        nombre: "Draco Malfoy",
+        descripcion: "Un estudiante de Slytherin y rival de Harry.",
+        hechizo: "Expelliarmus"
+    },
+    voldemort: {
+        nombre: "Lord Voldemort",
+        descripcion: "El mago tenebroso y antagonista principal.",
+        hechizo: "Avada Kedavra"
+    }
+};
+
+
+// Escuchar el cambio en el selector de casa
+casaSelector.addEventListener("change", function () {
+    const selectedCasa = casaSelector.value;
+    const selectedPersonaje = personajeSelector.value;
+
+    // Obtener los datos de la casa seleccionada
+    let casaNombre = "";
+    let casaFundador = "";
+    let casaValores = "";
+
+    switch (selectedCasa) {
+        case "gryffindor":
+            casaNombre = "Gryffindor";
+            casaFundador = "Godric Gryffindor";
+            casaValores = "Valores: Valentía, Coraje, Audacia";
+            break;
+        case "slytherin":
+            casaNombre = "Slytherin";
+            casaFundador = "Salazar Slytherin";
+            casaValores = "Valores: Astucia, Ambición, Determinación";
+            break;
+        case "hufflepuff":
+            casaNombre = "Hufflepuff";
+            casaFundador = "Helga Hufflepuff";
+            casaValores = "Valores: Lealtad, Paciencia, Justicia";
+            break;
+        case "ravenclaw":
+            casaNombre = "Ravenclaw";
+            casaFundador = "Rowena Ravenclaw";
+            casaValores = "Valores: Inteligencia, Creatividad, Sabiduría";
+            break;
+    }
+
+    // Obtener los datos del personaje seleccionado
+    let personajeNombre = "";
+    let personajeDescripcion = "";
+    let personajeHechizo = "";
+
+    if (selectedPersonaje) {
+        personajeNombre = datosPersonajes[selectedPersonaje].nombre;
+        personajeDescripcion = datosPersonajes[selectedPersonaje].descripcion;
+        personajeHechizo = datosPersonajes[selectedPersonaje].hechizo;
+    }
+
+    // Guardar todas las selecciones en la base de datos
+    guardarSelecciones(casaNombre, casaFundador, casaValores, personajeNombre, personajeDescripcion, personajeHechizo);
+
+    // Resto del código para actualizar la página
+    // ...
+});
+
+// Escuchar el cambio en el selector de personaje
+personajeSelector.addEventListener("change", function () {
+    const selectedCasa = casaSelector.value;
+    const selectedPersonaje = personajeSelector.value;
+
+    // Obtener los datos de la casa seleccionada
+    let casaNombre = "";
+    let casaFundador = "";
+    let casaValores = "";
+
+    if (selectedCasa) {
+        switch (selectedCasa) {
+            case "gryffindor":
+                casaNombre = "Gryffindor";
+                casaFundador = "Godric Gryffindor";
+                casaValores = "Valores: Valentía, Coraje, Audacia";
+                break;
+            case "slytherin":
+                casaNombre = "Slytherin";
+                casaFundador = "Salazar Slytherin";
+                casaValores = "Valores: Astucia, Ambición, Determinación";
+                break;
+            case "hufflepuff":
+                casaNombre = "Hufflepuff";
+                casaFundador = "Helga Hufflepuff";
+                casaValores = "Valores: Lealtad, Paciencia, Justicia";
+                break;
+            case "ravenclaw":
+                casaNombre = "Ravenclaw";
+                casaFundador = "Rowena Ravenclaw";
+                casaValores = "Valores: Inteligencia, Creatividad, Sabiduría";
+                break;
+        }
+    }
+
+    // Obtener los datos del personaje seleccionado
+    let personajeNombre = "";
+    let personajeDescripcion = "";
+    let personajeHechizo = "";
+
+    if (selectedPersonaje) {
+        personajeNombre = datosPersonajes[selectedPersonaje].nombre;
+        personajeDescripcion = datosPersonajes[selectedPersonaje].descripcion;
+        personajeHechizo = datosPersonajes[selectedPersonaje].hechizo;
+    }
+
+    // Guardar todas las selecciones en la base de datos
+    guardarSelecciones(casaNombre, casaFundador, casaValores, personajeNombre, personajeDescripcion, personajeHechizo);
+
+    // Resto del código para actualizar la página
+    // ...
+});
+
+        </script>
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="img/512.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Harry Potter</title>
+</head>
+<style>
+      .more-button {
+            background-color: #00fffb; 
+            color: rgb(0, 0, 0); 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: url('img/cursor1.png'), auto;
+            text-decoration: none;
+            font-size: 16px; 
+        }
+        .more-button:hover {
+            background-color: #f700fc;
+            color: rgb(255, 255, 255);
+        }
+</style>
+<body>
+    <img src="img/Logo.png" alt="" width="170px" height="90px">
+    <h1>Welcome to the world of harry potter</h1>
+    <div class="veil">
+        <div class="stone"></div>
+        <div class="wand"></div>
+    </div> <br> <br>
+    <button class="more-button" onclick="window.location.href='menu.html'">More</button>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(function(registration) {
+                    console.log('Service Worker registrado con éxito:', registration);
+                })
+                .catch(function(error) {
+                    console.log('Error al registrar el Service Worker:', error);
+                });
+        }
+    </script>
+
+</body>
+</html>

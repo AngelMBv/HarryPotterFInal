@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="img/512.png" type="image/x-icon">
+    <title>Peliculas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    cursor: url('img/cursor.png'), auto;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.movie {
+
+    background-color: #000000;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.movie:hover {
+    transform: translateY(-5px);
+}
+
+.movie img {
+    cursor: url('img/cursor1.png'), auto;
+    width: 300px;
+    height: 350px; 
+    object-fit: contain; 
+    border-radius: 8px;
+}
+
+.movie h3 {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #000000;
+}
+
+.logo {
+  width: 50px; 
+  height: auto;
+}
+
+.menu-items a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: url('img/cursor1.png'), auto;
+}
+
+.button {
+    margin-top: 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    cursor: url('img/cursor1.png'), auto;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    cursor: url('img/cursor1.png'), auto;
+}
+select{
+    background-color: #000000;
+    color: white;
+    cursor: url('img/cursor1.png'), auto;
+}
+select, option{
+    cursor: url('img/cursor1.png'), auto;
+}
+table {
+    border: 2px solid #ffffff; 
+    cursor: url('img/cursor1.png'), auto;
+}
+
+th, td {
+    border: 2px solid #ffffff; 
+    cursor: url('img/cursor1.png'), auto;
+    padding: 8px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #000000;
+    color: white;
+    cursor: url('img/cursor1.png'), auto;
+}
+button{
+    cursor: url('img/cursor1.png'), auto;
+}
+</style>
+<body>
+    <center>
+    <div class="menu">
+        <div class="logo">
+            <img src="img/Logo.png" alt="Logo" width="110px" height="50px">
+        </div>
+        <div class="menu-items">
+            <a href="index.html">Home</a>
+            <a href="Personajes.html">Chacarters</a>
+            <a href="Books.html">Spells</a>
+        </div>
+    </div>
+    <select id="movieSelect">
+        <option value="">Selecciona una película</option>
+        <option value="H1">Harry Potter y la piedra filosofal</option>
+        <option value="H2">Harry Potter y la cámara secreta</option>
+        <option value="H3">Harry Potter y el prisionero de Azkaban</option>
+        <option value="H4">Harry Potter y el cáliz de fuego</option>
+        <option value="H5">Harry Potter y la orden del fénix</option>
+        <option value="H6">Harry Potter y el misterio del príncipe</option>
+        <option value="H7">Harry Potter y las reliquias de la muerte pt1</option>
+        <option value="H8">Harry Potter y las reliquias de la muerte pt2</option>
+    </select>
+    <div class="gallery">
+        <div class="movie" id="movieCard">
+            <img src="img/logo.png" alt="Seleccione una película" width="300px" height="350px">
+            <h3>Seleccione una película</h3>
+        </div>
+    </div>
+
+    <button class="button" onclick="agregarPelicula()">Agregar Película</button>
+    <br><br>
+    <table id="movieTable">
+        <thead>
+            <tr>
+                <th>Nombre de la Película</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se mostrarán las películas agregadas -->
+        </tbody>
+    </table>
+</center>
+    <script>
+        function agregarPelicula() {
+            var select = document.getElementById("movieSelect");
+            var selectedOption = select.options[select.selectedIndex];
+            var movieName = selectedOption.text;
+            var movieImage = "img/" + selectedOption.value + ".png";
+
+            if (selectedOption.value !== "") {
+                var table = document.getElementById("movieTable").getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow(table.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.innerHTML = movieName;
+                cell2.innerHTML = `<img src="${movieImage}" alt="${movieName}" width="100">`;
+            }
+        }
+
+        function showMovie() {
+            var select = document.getElementById("movieSelect");
+            var selectedOption = select.options[select.selectedIndex];
+            var movieName = selectedOption.text;
+            var movieImage = "img/" + selectedOption.value + ".png";
+
+            if (selectedOption.value !== "") {
+                var movieCard = document.getElementById("movieCard");
+                var img = movieCard.getElementsByTagName("img")[0];
+                var h3 = movieCard.getElementsByTagName("h3")[0];
+                img.src = movieImage;
+                img.alt = movieName;
+                h3.innerHTML = movieName;
+            }
+        }
+
+        var movieSelect = document.getElementById("movieSelect");
+        movieSelect.addEventListener("change", showMovie);
+
+        
+        showMovie(); 
+    </script>
+</body>
+</html>
